@@ -1,0 +1,304 @@
+Given php (not a function line);
+$foo = 'bar';
+
+Execute:
+  AssertEqual PhpArgumentsSplit(), 'Not a function'
+
+Expect (nothing happens);
+$foo = 'bar';
+
+
+Given php (an already split function);
+function whatever(
+    $foo,
+    $bar = 1
+) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (nothing happens);
+function whatever(
+    $foo,
+    $bar = 1
+) {
+    // body
+}
+
+Given php (function with 0 indentation level);
+function whatever($foo, $bar = 1)
+{
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (indentation level is preserved);
+function whatever(
+    $foo,
+    $bar = 1
+) {
+    // body
+}
+
+
+Given php (function with 1 indentation level);
+    function whatever($foo, $bar = 1)
+    {
+        // body
+    }
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (indentation level is preserved);
+    function whatever(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+
+Given php (function with 2 indentation levels);
+        function whatever($foo, $bar = 1)
+        {
+            // body
+        }
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (indentation level is preserved);
+        function whatever(
+            $foo,
+            $bar = 1
+        ) {
+            // body
+        }
+
+
+Given php (method in a class);
+class Something
+{
+    public function something($foo, $bar = 1)
+    {
+
+    }
+}
+
+Execute:
+  execute '/public function something'
+  call PhpArgumentsSplit()
+
+Expect (correctly expanded);
+class Something
+{
+    public function something(
+        $foo,
+        $bar = 1
+    ) {
+
+    }
+}
+
+
+Given php (function with extra commas before parameter);
+function whatever($foo,$bar = 1 ,$a = false   ,$b)
+{
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (commas are fixed);
+function whatever(
+    $foo,
+    $bar = 1,
+    $a = false,
+    $b
+) {
+    // body
+}
+
+
+Given php (function with extra commas after parameter);
+function whatever($foo,$bar = 1, $a = false,   $b)
+{
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (commas are fixed);
+function whatever(
+    $foo,
+    $bar = 1,
+    $a = false,
+    $b
+) {
+    // body
+}
+
+
+Given php (function with extra commas before and after parameter);
+function whatever($foo,$bar = 1 , $a = false   ,    $b)
+{
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (commas are fixed);
+function whatever(
+    $foo,
+    $bar = 1,
+    $a = false,
+    $b
+) {
+    // body
+}
+
+
+Given php (function with extra spaces after opening parenthesis);
+function whatever(   $foo, $bar) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (extra spaces are removed);
+function whatever(
+    $foo,
+    $bar
+) {
+    // body
+}
+
+
+Given php (function with extra spaces before closing parenthesis);
+function whatever($foo, $bar   ) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (extra spaces are removed);
+function whatever(
+    $foo,
+    $bar
+) {
+    // body
+}
+
+
+Given php (function with return type);
+function whatever($foo, $bar): bool
+{
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (return type is preserved);
+function whatever(
+    $foo,
+    $bar
+): bool {
+    // body
+}
+
+
+Given php (function with open bracket in same line);
+function whatever($foo, $bar) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (open bracket is moved next to closing parenthesis);
+function whatever(
+    $foo,
+    $bar
+) {
+    // body
+}
+
+
+Given php (function with open bracket in same line and extra spaces in between);
+function whatever($foo, $bar)    {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (extra spaces are removed);
+function whatever(
+    $foo,
+    $bar
+) {
+    // body
+}
+
+
+Given php (function with open bracket in same line and return type);
+function whatever($foo, $bar): bool {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (open bracket is moved next to closing parenthesis and return type is preserved);
+function whatever(
+    $foo,
+    $bar
+): bool {
+    // body
+}
+
+
+Given php (function with open bracket in same line with extra spaces and return type);
+function whatever($foo, $bar): bool       {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (extra spaces are removed);
+function whatever(
+    $foo,
+    $bar
+): bool {
+    // body
+}
+
+
+Given php (function with open bracket in same line with extra spaces after and before return type);
+function whatever($foo, $bar):      bool       {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (extra spaces are removed);
+function whatever(
+    $foo,
+    $bar
+): bool {
+    // body
+}
+

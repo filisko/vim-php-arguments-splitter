@@ -1,0 +1,357 @@
+Given php (not a function line);
+$foo = 'bar';
+
+Execute:
+  AssertEqual PhpArgumentsUnsplit(), 'Not a function'
+
+Expect (nothing happens);
+$foo = 'bar';
+
+
+Given php (function already unsplit);
+function whatever(string $foo, ?int $bar = 1) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (nothing happens);
+function whatever(string $foo, ?int $bar = 1) {
+    // body
+}
+
+
+Given php (function with 0 indentation level);
+function whatever(
+    string $foo,
+    ?int $bar = 1
+) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (opening bracket is moved to same line);
+function whatever(string $foo, ?int $bar = 1) {
+    // body
+}
+
+
+Given php (function with 1 indentation level);
+    function whatever(
+        string $foo,
+        ?int $bar = 1
+    ) {
+        // body
+    }
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (indentation level is preserved and opening bracket is moved to same line);
+    function whatever(string $foo, ?int $bar = 1) {
+        // body
+    }
+
+
+Given php (function with 2 indentation levels);
+        function whatever(
+            string $foo,
+            ?int $bar = 1
+        ) {
+            // body
+        }
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (indentation level is preserved and opening bracket is moved to same line);
+        function whatever(string $foo, ?int $bar = 1) {
+            // body
+        }
+
+
+Given php (function with extra spaces before comma);
+function whatever(
+    string $foo,
+    ?int $bar = 1 ,
+    array $a = []   ,
+    ?bool $b = 1
+) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (extra spaces are removed);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1) {
+    // body
+}
+
+
+Given php (function with extra spaces after comma);
+function whatever(
+    string $foo,
+    ?int $bar = 1, 
+    array $a = [],  
+    ?bool $b = 1    
+) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (extra spaces are removed);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1) {
+    // body
+}
+
+
+Given php (function with return type);
+function whatever(
+    string $foo,
+    ?int $bar = 1,
+    array $a = [],
+    ?bool $b = 1
+): ?bool {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (return type is preserved);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1): ?bool {
+    // body
+}
+
+
+Given php (function with extra spaces before opening bracket);
+function whatever(
+    string $foo,
+    ?int $bar = 1,
+    array $a = [],
+    ?bool $b = 1
+): ?bool     {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (extra spaces are removed);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1): ?bool {
+    // body
+}
+
+
+Given php (function with extra spaces before return type);
+function whatever(
+    string $foo,
+    ?int $bar = 1,
+    array $a = [],
+    ?bool $b = 1
+):    ?bool     {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (extra spaces are removed);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1): ?bool {
+    // body
+}
+
+
+Given php (function with extra spaces between closing parenthesis and opening bracket without return type);
+function whatever(
+    string $foo,
+    ?int $bar = 1,
+    array $a = [],
+    ?bool $b = 1
+)   {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (only one space is left);
+function whatever(string $foo, ?int $bar = 1, array $a = [], ?bool $b = 1) {
+    // body
+}
+
+
+Given php (multiple methods within a class);
+class Something
+{
+    public function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    protected function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    private function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    public static function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    protected static function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    private static function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    static public function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    static protected function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+
+    static private function something(
+        $foo,
+        $bar = 1
+    ) {
+        // body
+    }
+}
+
+Execute:
+  execute '/public function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/protected function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/private function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/public static function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/protected static function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/private static function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/static public function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/static protected function something'
+  call PhpArgumentsUnsplit()
+
+  execute '/static private function something'
+  call PhpArgumentsUnsplit()
+
+
+Expect (open bracket is set in new line);
+class Something
+{
+    public function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    protected function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    private function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    public static function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    protected static function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    private static function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    static public function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    static protected function something($foo, $bar = 1)
+    {
+        // body
+    }
+
+    static private function something($foo, $bar = 1)
+    {
+        // body
+    }
+}
+
+
+Given php (function with newlines between params);
+function whatever(
+
+    string $foo,
+
+
+    ?int $bar = 1
+
+
+
+) {
+    // body
+}
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (newlines are removed);
+function whatever(string $foo, ?int $bar = 1) {
+    // body
+}
+
