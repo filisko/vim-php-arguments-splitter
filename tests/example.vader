@@ -1,0 +1,15 @@
+Given php (function without space between function and open parenthesis);
+function whatever($longArgument) {
+   // body
+};
+
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (space is added);
+function whatever (
+    $longArgument
+) {
+   // body
+};

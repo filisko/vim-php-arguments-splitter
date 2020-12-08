@@ -41,7 +41,7 @@ function PhpArgumentsSplit()
   let refactoredContent = lineContent
 
   " remove function's opening bracket (will be added later)
-  if lineContent =~ "{"
+  if refactoredContent =~ "{"
     " remove from same line
     let refactoredContent = substitute(refactoredContent, ' *{', '', 'g')
   else
@@ -53,9 +53,10 @@ function PhpArgumentsSplit()
   endif
   
 
-  " move everything after open parenthesis to next line and indent it (base leve +1)
-  let correctFirstParam = printf("\(\n%s%s", baseIndentLevel, oneIndentLevel)
-  let refactoredContent = substitute(refactoredContent, "\( *", correctFirstParam, "g")
+  " leave only 1 space before open parenthesis
+  " and move everything after open parenthesis to next line and indent it (base leve +1)
+  let correctFirstParam = printf(" \(\n%s%s", baseIndentLevel, oneIndentLevel)
+  let refactoredContent = substitute(refactoredContent, " *\( *", correctFirstParam, "g")
 
   " enter newline after every comma and indent them (base level + 1)
   let correctMiddleParams = printf("\,\n%s%s", baseIndentLevel, oneIndentLevel)
@@ -70,6 +71,9 @@ function PhpArgumentsSplit()
 
   " insert open bracket in same line as closing parenthesis: ") {"
   let refactoredContent = refactoredContent . " \{\n"
+
+  " if there are no arguments between parenthesis, unsplit
+  let refactoredContent = substitute(refactoredContent, "\(\n".baseIndentLevel."\n\)", "\(\)", "g")
 
   " let vim handle the newlines
   let refactoredLines = split(refactoredContent, '\n')

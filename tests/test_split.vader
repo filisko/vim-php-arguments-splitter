@@ -9,7 +9,7 @@ $foo = 'bar';
 
 
 Given php (an already split function);
-function whatever(
+function whatever (
     $foo,
     $bar = 1
 ) {
@@ -21,7 +21,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (nothing happens);
-function whatever(
+function whatever (
     $foo,
     $bar = 1
 ) {
@@ -30,7 +30,7 @@ function whatever(
 }
 
 Given php (function with 0 indentation level);
-function whatever($foo, $bar = 1)
+function whatever ($foo, $bar = 1)
 {
     // body 1
     // body 2
@@ -40,7 +40,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (indentation level is preserved);
-function whatever(
+function whatever (
     $foo,
     $bar = 1
 ) {
@@ -50,7 +50,7 @@ function whatever(
 
 
 Given php (function with 1 indentation level);
-    function whatever($foo, $bar = 1)
+    function whatever ($foo, $bar = 1)
     {
         // body 1
         // body 2
@@ -60,7 +60,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (indentation level is preserved);
-    function whatever(
+    function whatever (
         $foo,
         $bar = 1
     ) {
@@ -70,7 +70,7 @@ Expect (indentation level is preserved);
 
 
 Given php (function with 2 indentation levels);
-        function whatever($foo, $bar = 1)
+        function whatever ($foo, $bar = 1)
         {
             // body 1
             // body 2
@@ -80,7 +80,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (indentation level is preserved);
-        function whatever(
+        function whatever (
             $foo,
             $bar = 1
         ) {
@@ -105,7 +105,7 @@ Execute:
 Expect (correctly expanded);
 class Something
 {
-    public function something(
+    public function something (
         $foo,
         $bar = 1
     ) {
@@ -115,7 +115,7 @@ class Something
 
 
 Given php (function with extra commas before parameter);
-function whatever($foo,$bar = 1 ,$a = false   ,$b)
+function whatever ($foo,$bar = 1 ,$a = false   ,$b)
 {
     // body 1
     // body 2
@@ -125,7 +125,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (commas are fixed);
-function whatever(
+function whatever (
     $foo,
     $bar = 1,
     $a = false,
@@ -137,7 +137,7 @@ function whatever(
 
 
 Given php (function with extra commas after parameter);
-function whatever($foo,$bar = 1, $a = false,   $b)
+function whatever ($foo,$bar = 1, $a = false,   $b)
 {
     // body 1
     // body 2
@@ -147,7 +147,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (commas are fixed);
-function whatever(
+function whatever (
     $foo,
     $bar = 1,
     $a = false,
@@ -159,7 +159,7 @@ function whatever(
 
 
 Given php (function with extra commas before and after parameter);
-function whatever($foo,$bar = 1 , $a = false   ,    $b)
+function whatever ($foo,$bar = 1 , $a = false   ,    $b)
 {
     // body 1
     // body 2
@@ -169,7 +169,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (commas are fixed);
-function whatever(
+function whatever (
     $foo,
     $bar = 1,
     $a = false,
@@ -181,7 +181,7 @@ function whatever(
 
 
 Given php (function with extra spaces after opening parenthesis);
-function whatever(   $foo, $bar) {
+function whatever (   $foo, $bar) {
     // body 1
     // body 2
 }
@@ -190,7 +190,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (extra spaces are removed);
-function whatever(
+function whatever (
     $foo,
     $bar
 ) {
@@ -200,7 +200,7 @@ function whatever(
 
 
 Given php (function with extra spaces before closing parenthesis);
-function whatever($foo, $bar   ) {
+function whatever ($foo, $bar   ) {
     // body 1
     // body 2
 }
@@ -209,7 +209,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (extra spaces are removed);
-function whatever(
+function whatever (
     $foo,
     $bar
 ) {
@@ -219,7 +219,7 @@ function whatever(
 
 
 Given php (function with return type);
-function whatever($foo, $bar): bool
+function whatever ($foo, $bar): bool
 {
     // body 1
     // body 2
@@ -229,7 +229,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (return type is preserved);
-function whatever(
+function whatever (
     $foo,
     $bar
 ): bool {
@@ -239,7 +239,7 @@ function whatever(
 
 
 Given php (function with open bracket in same line);
-function whatever($foo, $bar) {
+function whatever ($foo, $bar) {
     // body 1
     // body 2
 }
@@ -248,7 +248,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (open bracket is moved next to closing parenthesis);
-function whatever(
+function whatever (
     $foo,
     $bar
 ) {
@@ -258,7 +258,7 @@ function whatever(
 
 
 Given php (function with open bracket in same line and extra spaces in between);
-function whatever($foo, $bar)    {
+function whatever ($foo, $bar)    {
     // body 1
     // body 2
 }
@@ -267,7 +267,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (extra spaces are removed);
-function whatever(
+function whatever (
     $foo,
     $bar
 ) {
@@ -277,7 +277,7 @@ function whatever(
 
 
 Given php (function with open bracket in same line and return type);
-function whatever($foo, $bar): bool {
+function whatever ($foo, $bar): bool {
     // body 1
     // body 2
 }
@@ -286,7 +286,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (open bracket is moved next to closing parenthesis and return type is preserved);
-function whatever(
+function whatever (
     $foo,
     $bar
 ): bool {
@@ -296,7 +296,7 @@ function whatever(
 
 
 Given php (function with open bracket in same line with extra spaces and return type);
-function whatever($foo, $bar): bool       {
+function whatever ($foo, $bar): bool       {
     // body 1
     // body 2
 }
@@ -305,7 +305,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (extra spaces are removed);
-function whatever(
+function whatever (
     $foo,
     $bar
 ): bool {
@@ -315,7 +315,7 @@ function whatever(
 
 
 Given php (function with open bracket in same line with extra spaces after and before return type);
-function whatever($foo, $bar):      bool       {
+function whatever ($foo, $bar):      bool       {
     // body 1
     // body 2
 }
@@ -324,7 +324,7 @@ Execute:
   call PhpArgumentsSplit()
 
 Expect (extra spaces are removed);
-function whatever(
+function whatever (
     $foo,
     $bar
 ): bool {
@@ -332,3 +332,126 @@ function whatever(
     // body 2
 }
 
+
+Given php (function without space between function and open parenthesis);
+function whatever($longArgument) {
+   // body
+};
+
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (space is added);
+function whatever (
+    $longArgument
+) {
+   // body
+};
+
+
+Given php (function with 0 arguments);
+function whatever () {
+    // body
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (is left as is);
+function whatever () {
+    // body
+}
+
+
+Given php (closure with 0 arguments);
+$longArgs_noVars = function (): void {
+   // body
+};
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (is left as is);
+$longArgs_noVars = function (): void {
+   // body
+};
+
+
+Given php (php class with method with 0 arguments);
+class SomeClass
+{
+    protected function someMethod()
+    {
+        // body
+    }
+}
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (is left as is);
+class SomeClass
+{
+    protected function someMethod()
+    {
+        // body
+    }
+}
+
+
+Given php (closure with 4 arguments);
+$longArgs_noVars = function ($longArgument, $longerArgument, $muchLongerArgument): void {
+   // body
+};
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (is split);
+$longArgs_noVars = function (
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+): void {
+   // body
+};
+
+
+Given php (closure with no args but 3 use arguments);
+$noArgs_longVars = function () use ($longVar1, $longerVar2, $muchLongerVar3) {
+   // body
+};
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (function is left as is and use is split);
+$noArgs_longVars = function () use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+
+
+Given php (closure with 2 arguments and 4 use arguments);
+$noArgs_longVars = function ($foo, $bar) use ($longVar1, $longerVar2, $muchLongerVar3) {
+   // body
+};
+
+Execute:
+  call PhpArgumentsSplit()
+
+Expect (both are split);
+$noArgs_longVars = function (
+    $foo,
+    $bar
+) use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
