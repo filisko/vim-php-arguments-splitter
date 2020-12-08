@@ -75,9 +75,9 @@ function PhpArgumentsSplit()
   let refactoredLines = split(refactoredContent, '\n')
 
   " empty lines are needed where refactored lines will be put in so other lines are not overwritten
-  let refactoredLinesSpace = repeat([''], len(refactoredLines)-1)
+  let emptyLines = repeat([''], len(refactoredLines)-1)
 
-  call append(lineNumber, refactoredLinesSpace)
+  call append(lineNumber, emptyLines)
   call setline(lineNumber, refactoredLines)
 endfunction
 
