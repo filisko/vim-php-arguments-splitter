@@ -23,7 +23,7 @@ matrix:
           sources:
             - sourceline: 'ppa:neovim-ppa/stable'
           packages:
-            - neovim
+            - nvim
 
 install:
   - pip install --user covimerage
