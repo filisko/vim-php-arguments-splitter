@@ -5,9 +5,9 @@ set -p
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
 
-test_file=${1}
+test_file=${1:-*}
 
-if [[ ! -f "$test_file" ]]; then
+if [[ $test_file != '*' && ! -f "$test_file" ]]; then
 	echo "specify a test file"
 	exit 1
 fi

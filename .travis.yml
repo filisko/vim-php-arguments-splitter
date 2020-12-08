@@ -58,4 +58,4 @@ before_script:
   - git clone https://github.com/jreybert/vader.vim
 
 script:
-  - ./tests/run-ci-tests.sh $VIM_VERSION
+  - ./tests/run-all-ci.sh $VIM_VERSION
