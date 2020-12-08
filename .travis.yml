@@ -1,29 +1,7 @@
-dist: xenial
-language: minimal
+language: vim
 
-matrix:
-  include:
-    - env: ENV=vim
-      addons:
-        apt:
-          packages:
-            - ruby
-            - ruby-dev
-    - env: ENV=vim-travis
-      addons:
-        apt:
-          packages:
-            - vim-nox-py2
-    - env: ENV=nvim
-    - env: ENV=nvim VADER_OUTPUT_FILE=/dev/stderr
-    - env: ENV=nvim TESTVIM_OPTS=--headless
-    - env: ENV=nvim-stable
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:neovim-ppa/stable'
-          packages:
-            - neovim
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
 
 install:
   - pip install --user covimerage
@@ -56,8 +34,8 @@ script:
   - VADER_TEST_VIM="covimerage run --source $PWD --data-file $PWD/.coverage_covimerage --no-report $TESTVIM $TESTVIM_OPTS" ./tests/run-tests.sh
   # Test/cover :Vader use case (without bang).
   - |
-    covimerage run --append --source . --no-report $TESTVIM $TESTVIM_OPTS -Nu test/vimrc \
-      -c 'Vader test/*' \
+    covimerage run --append --source . --no-report $TESTVIM $TESTVIM_OPTS -Nu tests/vimrc \
+      -c 'Vader tests/*' \
       -c 'exe get(get(g:, "vader_result", {}), "successful", 0) ? "qall!" : "cq"'
 
   # Report coverage.  This should fail the build to detect any problems.
