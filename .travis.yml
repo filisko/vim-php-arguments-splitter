@@ -36,7 +36,7 @@ script:
   - $TESTVIM --version
   # Wrap $TESTVIM with covimerage for coverage reporting.
   # Uses --no-report, because test/run-tests.sh changes the directory, and that does not pick up .coveragerc then.
-  - VADER_TEST_VIM="covimerage run --source $PWD --data-file $PWD/.coverage_covimerage --no-report $TESTVIM $TESTVIM_OPTS" ./tests/run-tests.sh
+  # - VADER_TEST_VIM="covimerage run --source $PWD --data-file $PWD/.coverage_covimerage --no-report $TESTVIM $TESTVIM_OPTS" ./tests/run-tests.sh
   # Test/cover :Vader use case (without bang).
   - |
     covimerage run --append --source . --no-report $TESTVIM $TESTVIM_OPTS -Nu tests/vimrc_outside \

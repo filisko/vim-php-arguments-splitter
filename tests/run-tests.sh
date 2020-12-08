@@ -32,5 +32,5 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 : "${VADER_TEST_VIM:=vim}"
-eval "$VADER_TEST_VIM -Nu '$DIR/vimrc_outside' -c 'Vader! *'"
+eval "$VADER_TEST_VIM -Nu '$DIR/vimrc' -c 'Vader! *'"
 
