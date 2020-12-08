@@ -1,0 +1,16 @@
+language: vim
+
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
+
+script: |
+  vim -Nu <(cat << VIMRC
+  filetype off
+  set shiftwidth=4
+  set rtp+=vader.vim
+  set rtp+=.
+  set rtp+=after
+  set rtp+=plugin/vim-php-arguments-splitter.vim
+  filetype plugin indent on
+  syntax enable
+  VIMRC) -c 'Vader! tests/*' > /dev/null
