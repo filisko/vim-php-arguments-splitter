@@ -1,54 +1,67 @@
-dist: xenial
-language: minimal
+language: python
+
+branches:
+  only:
+    - master
+    - next
+    - /^dev\/.*$/
+
+os:
+  - linux
+#  - osx
+
+env:
+  - VIM_VERSION=normal
+  - VIM_VERSION=last
+  - VIM_VERSION=neovim
+  - VIM_VERSION=macvim
 
 matrix:
-  include:
-    - env: ENV=vim
-      addons:
-        apt:
-          packages:
-            - ruby
-            - ruby-dev
-    - env: ENV=vim-travis
-      addons:
-        apt:
-          packages:
-            - vim-nox-py2
-    - env: ENV=nvim-stable
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:neovim-ppa/stable'
-          packages:
-            - neovim
+  exclude:
+    - os: osx
+      env: VIM_VERSION=last
+# neovim build fails with homebrew
+# Error: undefined method `desc' for Neovim:Class
+    - os: osx
+      env: VIM_VERSION=neovim
+    - os: linux
+      env: VIM_VERSION=macvim
 
 install:
-  - pip install --user covimerage
-  - |
-    set -e
-    pushd /tmp
-    if [ "$ENV" = vim ]; then
-      rvm use system
-      git clone --depth=1 https://github.com/vim/vim
-      cd vim
-      ./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --prefix /tmp/vim
-      make
-      make install
-      PATH=/tmp/vim/bin:$PATH
-    elif [ "$ENV" = nvim ] || [ "${ENV#nvim-}" != "$ENV" ]; then
-      if [ "$ENV" = nvim ]; then
-        # Install Neovim nightly (into /tmp/_neovim).
-        TRAVIS_BUILD_DIR=/tmp eval "$(curl -Ss https://raw.githubusercontent.com/neovim/bot-ci/master/scripts/travis-setup.sh) nightly-x64"
+  - if [ "$TRAVIS_OS_NAME" = 'osx' ]; then
+      if [ "$VIM_VERSION" = 'neovim' ]; then
+        brew tap neovim/neovim &&
+        brew tap --repair &&
+        brew install --HEAD neovim;
+      elif [ "$VIM_VERSION" = 'macvim' ]; then
+        brew install macvim;
+      elif [ "$VIM_VERSION" = 'normal' ]; then
+        echo "use normal vim";
+      else
+        echo "VIM_VERSION is not set";
+        exit 1;
       fi
-      gem install neovim
-      pip install --user pynvim
+    elif [ "$TRAVIS_OS_NAME" = 'linux' ]; then
+      if [ "$VIM_VERSION" = 'last' ]; then
+        sudo add-apt-repository -y ppa:fcwu-tw/ppa &&
+        sudo apt-get -qq update &&
+        sudo apt-get -qq -f install &&
+        sudo apt-get -qq install vim;
+      elif [ "$VIM_VERSION" = 'neovim' ]; then
+        sudo add-apt-repository -y ppa:neovim-ppa/unstable &&
+        sudo apt-get -qq update &&
+        sudo apt-get -qq -f install &&
+        sudo apt-get -qq install neovim;
+      elif [ "$VIM_VERSION" = 'normal' ]; then
+        echo "use normal vim";
+      else
+        echo "VIM_VERSION is not set";
+        exit 1;
+      fi
     fi
-    popd
 
-before_script: |
-  git clone https://github.com/junegunn/vader.vim.git
+before_script:
+  - git clone https://github.com/jreybert/vader.vim
 
 script:
-  - export TESTVIM="${ENV%%-*}"
-  - $TESTVIM --version
-  - VADER_TEST_VIM="$TESTVIM $TESTVIM_OPTS" ./tests/run-tests.sh
+  - ./tests/run-tests.sh $VIM_VERSION

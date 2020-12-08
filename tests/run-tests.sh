@@ -31,6 +31,16 @@ set -p
 
 cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
 
+if [ "$VIM_VERSION" = 'neovim' ]; then
+	VIM=nvim
+elif [ "$VIM_VERSION" = 'macvim' ]; then
+	VIM=mvim
+else
+	VIM=vim
+fi
 
-: "${VADER_TEST_VIM:=vim}"
-eval "$VADER_TEST_VIM -Nu vimrc -c 'Vader! *'"
+echo 'Vim version'
+$VIM --version
+
+: "${VIM:=vim}"
+eval "$VIM -Nu vimrc -c 'Vader! *'"
