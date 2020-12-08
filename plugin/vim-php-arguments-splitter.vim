@@ -74,7 +74,7 @@ function PhpArgumentsSplit()
   " let vim handle the newlines
   let refactoredLines = split(refactoredContent, '\n')
 
-  " empty lines are needed where refactored lines will be put
+  " empty lines are needed where refactored lines will be put in so other lines are not overwritten
   let refactoredLinesSpace = repeat([''], len(refactoredLines)-1)
 
   call append(lineNumber, refactoredLinesSpace)
