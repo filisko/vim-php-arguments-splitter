@@ -144,7 +144,7 @@ function PhpArgumentsUnsplit()
     " add new line after closing parenthesis if we're in a class
     let refactoredContent = substitute(refactoredContent, "\) *\{", "\)\n".baseIndentLevel."\{", "g")
 
-    " add empty line after current line where open bracket will be placed
+    " add empty line after current line where open bracket will be placed (so other lines are not overwritten)
     call append(lineNumber, [''])
   endif
 
