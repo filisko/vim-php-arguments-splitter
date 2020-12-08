@@ -38,12 +38,12 @@ function PhpArgumentsSplit()
   let oneIndentLevel = repeat(' ', numberOfSpacesConsideredOneTab)
   " let currentIndentLevel = strlen(baseIndentLevel) / numberOfSpacesConsideredOneTab
   
-  let refactoredLineContent = lineContent
+  let refactoredContent = lineContent
 
   " remove function's opening bracket (will be added later)
   if lineContent =~ "{"
     " remove from same line
-    let refactoredLineContent = substitute(refactoredLineContent, ' *{', '', 'g')
+    let refactoredContent = substitute(refactoredContent, ' *{', '', 'g')
   else
     " remove from next line
     execute (lineNumber+1) . 'd'
@@ -55,27 +55,30 @@ function PhpArgumentsSplit()
 
   " move everything after open parenthesis to next line and indent it (base leve +1)
   let correctFirstParam = printf("\(\n%s%s", baseIndentLevel, oneIndentLevel)
-  let refactoredLineContent = substitute(refactoredLineContent, "\( *", correctFirstParam, "g")
+  let refactoredContent = substitute(refactoredContent, "\( *", correctFirstParam, "g")
 
   " enter newline after every comma and indent them (base level + 1)
   let correctMiddleParams = printf("\,\n%s%s", baseIndentLevel, oneIndentLevel)
-  let refactoredLineContent = substitute(refactoredLineContent, " *\, *", correctMiddleParams, "g")
+  let refactoredContent = substitute(refactoredContent, " *\, *", correctMiddleParams, "g")
 
   " move closing parenthesis to its own line and indent it (base level) 
   let correctLastParam = printf("\n%s\)", baseIndentLevel)
-  let refactoredLineContent = substitute(refactoredLineContent, " *\)", correctLastParam, "g")
+  let refactoredContent = substitute(refactoredContent, " *\)", correctLastParam, "g")
 
   " remove extra spaces before return type
-  let refactoredLineContent = substitute(refactoredLineContent, "\)\: *", "\)\: ", "g")
+  let refactoredContent = substitute(refactoredContent, "\)\: *", "\)\: ", "g")
 
-  " insert open bracket after closing parenthesis and enter new line: ) {
-  let refactoredLineContent = refactoredLineContent . " \{\n"
+  " insert open bracket in same line as closing parenthesis: ") {"
+  let refactoredContent = refactoredContent . " \{\n"
 
+  " let vim handle the newlines
+  let refactoredLines = split(refactoredContent, '\n')
 
-  let o = @o
-  let @o = refactoredLineContent
-  normal! V"op
-  let @o=o
+  " empty lines are needed where refactored lines will be put
+  let refactoredLinesSpace = repeat([''], len(refactoredLines)-1)
+
+  call append(lineNumber, refactoredLinesSpace)
+  call setline(lineNumber, refactoredLines)
 endfunction
 
 
@@ -91,6 +94,7 @@ function PhpArgumentsUnsplit()
   let numberOfSpacesConsideredOneTab = &shiftwidth
   let baseIndentLevel = matchstr(lineContent, ' *')
   let oneIndentLevel = repeat(' ', numberOfSpacesConsideredOneTab)
+
   " echom strlen(baseIndentLevel)
 
   let functionContent = ""
@@ -98,7 +102,7 @@ function PhpArgumentsUnsplit()
   let closingParenthesisFound = 0
 
   while numberOfLinesToClosingParenthesis <= 30
-    let nextLineContent = getline(lineNumber+numberOfLinesToClosingParenthesis)
+    let nextLineContent =  getline(lineNumber+numberOfLinesToClosingParenthesis)
     let functionContent = functionContent.nextLineContent
 
     let numberOfLinesToClosingParenthesis += 1
@@ -114,7 +118,7 @@ function PhpArgumentsUnsplit()
     return
   endif
 
-  " remove lines
+  " compress lines
   execute 'j' . numberOfLinesToClosingParenthesis
 
   let refactoredContent = functionContent
@@ -134,17 +138,19 @@ function PhpArgumentsUnsplit()
   " remove extra spaces before return type
   let refactoredContent = substitute(refactoredContent, "\)\: *", "\)\: ", "g")
 
-  if refactoredContent =~ join(['.*protected.*function.*(', '.*public.*function.*(', '.*private.*function.*('], '\|')
-    " add new line after closing parenthesis if we're in class
+  " if we're inside a class
+  if (refactoredContent =~ join(['.*protected.*function.*(', '.*public.*function.*(', '.*private.*function.*('], '\|'))
+
+    " add new line after closing parenthesis if we're in a class
     let refactoredContent = substitute(refactoredContent, "\) *\{", "\)\n".baseIndentLevel."\{", "g")
+
+    " add empty line after current line where open bracket will be placed
+    call append(lineNumber, [''])
   endif
 
-  let o = @o
-  let @o = refactoredContent
-  normal! V"op
-  let @o=o
+  let splitInNewLines = split(refactoredContent, '\n')
+  call setline(lineNumber, splitInNewLines)
 endfunction
-
 
 function PhpToggle()
   if s:ArgumentsCanBeSplit() == 1

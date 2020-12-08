@@ -194,63 +194,72 @@ class Something
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     protected function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     private function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     public static function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     protected static function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     private static function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static public function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static protected function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static private function something(
         $foo,
         $bar = 1
     ) {
-        // body
+        // body line 1
+        // body line 2
     }
 }
 
@@ -288,47 +297,56 @@ class Something
 {
     public function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     protected function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     private function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     public static function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     protected static function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     private static function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static public function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static protected function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 
     static private function something($foo, $bar = 1)
     {
-        // body
+        // body line 1
+        // body line 2
     }
 }
 

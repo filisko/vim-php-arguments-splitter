@@ -13,7 +13,8 @@ function whatever(
     $foo,
     $bar = 1
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -24,13 +25,15 @@ function whatever(
     $foo,
     $bar = 1
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 Given php (function with 0 indentation level);
 function whatever($foo, $bar = 1)
 {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -41,14 +44,16 @@ function whatever(
     $foo,
     $bar = 1
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with 1 indentation level);
     function whatever($foo, $bar = 1)
     {
-        // body
+        // body 1
+        // body 2
     }
 
 Execute:
@@ -59,14 +64,16 @@ Expect (indentation level is preserved);
         $foo,
         $bar = 1
     ) {
-        // body
+        // body 1
+        // body 2
     }
 
 
 Given php (function with 2 indentation levels);
         function whatever($foo, $bar = 1)
         {
-            // body
+            // body 1
+            // body 2
         }
 
 Execute:
@@ -77,7 +84,8 @@ Expect (indentation level is preserved);
             $foo,
             $bar = 1
         ) {
-            // body
+            // body 1
+            // body 2
         }
 
 
@@ -109,7 +117,8 @@ class Something
 Given php (function with extra commas before parameter);
 function whatever($foo,$bar = 1 ,$a = false   ,$b)
 {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -122,14 +131,16 @@ function whatever(
     $a = false,
     $b
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with extra commas after parameter);
 function whatever($foo,$bar = 1, $a = false,   $b)
 {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -142,14 +153,16 @@ function whatever(
     $a = false,
     $b
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with extra commas before and after parameter);
 function whatever($foo,$bar = 1 , $a = false   ,    $b)
 {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -162,13 +175,15 @@ function whatever(
     $a = false,
     $b
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with extra spaces after opening parenthesis);
 function whatever(   $foo, $bar) {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -179,13 +194,15 @@ function whatever(
     $foo,
     $bar
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with extra spaces before closing parenthesis);
 function whatever($foo, $bar   ) {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -196,14 +213,16 @@ function whatever(
     $foo,
     $bar
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with return type);
 function whatever($foo, $bar): bool
 {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -214,13 +233,15 @@ function whatever(
     $foo,
     $bar
 ): bool {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with open bracket in same line);
 function whatever($foo, $bar) {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -231,13 +252,15 @@ function whatever(
     $foo,
     $bar
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with open bracket in same line and extra spaces in between);
 function whatever($foo, $bar)    {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -248,13 +271,15 @@ function whatever(
     $foo,
     $bar
 ) {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with open bracket in same line and return type);
 function whatever($foo, $bar): bool {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -265,13 +290,15 @@ function whatever(
     $foo,
     $bar
 ): bool {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with open bracket in same line with extra spaces and return type);
 function whatever($foo, $bar): bool       {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -282,13 +309,15 @@ function whatever(
     $foo,
     $bar
 ): bool {
-    // body
+    // body 1
+    // body 2
 }
 
 
 Given php (function with open bracket in same line with extra spaces after and before return type);
 function whatever($foo, $bar):      bool       {
-    // body
+    // body 1
+    // body 2
 }
 
 Execute:
@@ -299,6 +328,7 @@ function whatever(
     $foo,
     $bar
 ): bool {
-    // body
+    // body 1
+    // body 2
 }
 

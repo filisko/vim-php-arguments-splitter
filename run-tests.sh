@@ -27,6 +27,7 @@ nvim -Nu <(cat <<VIMRC
     filetype plugin indent on
     syntax enable
 VIMRC
-) -c 'Vader! tests/*' > /dev/null
+) -c 'Vader! tests/*.vader' > /dev/null
+# ) -c 'Vader! tests/*' > /dev/null
 
 # nvim '+Vader! tests/*' && echo Success || echo Failure
