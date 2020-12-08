@@ -42,7 +42,7 @@ script:
   - VADER_TEST_VIM="covimerage run --source $PWD --data-file $PWD/.coverage_covimerage --no-report $TESTVIM $TESTVIM_OPTS" ./tests/run-tests.sh
   # Test/cover :Vader use case (without bang).
   - |
-    covimerage run --append --source . --no-report $TESTVIM $TESTVIM_OPTS -Nu tests/vimrc_outside \
+    covimerage run --append --source . --no-report $TESTVIM $TESTVIM_OPTS -Nu tests/vimrc \
       -c 'Vader tests/*' \
       -c 'exe get(get(g:, "vader_result", {}), "successful", 0) ? "qall!" : "cq"'
   # Report coverage.  This should fail the build to detect any problems.
