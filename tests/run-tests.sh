@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Use privileged mode, to e.g. ignore $CDPATH.
-set -p
+# set -p
 
-cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
+# cd "$( dirname "${BASH_SOURCE[0]}" )" || exit
 
 # nvim -Nu <(cat << EOF
 # filetype off
