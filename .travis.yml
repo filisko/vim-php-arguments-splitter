@@ -1,14 +1,8 @@
 language: python
 
-branches:
-  only:
-    - master
-    - next
-    - /^dev\/.*$/
-
 os:
   - linux
-#  - osx
+  - osx
 
 env:
   - VIM_VERSION=normal
