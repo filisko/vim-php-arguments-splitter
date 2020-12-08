@@ -378,7 +378,7 @@ $longArgs_noVars = function (): void {
 };
 
 
-Given php (php class with method with 0 arguments);
+Given php (class method with 0 arguments);
 class SomeClass
 {
     protected function someMethod()
@@ -455,3 +455,4 @@ $noArgs_longVars = function (
 ) {
    // body
 };
+

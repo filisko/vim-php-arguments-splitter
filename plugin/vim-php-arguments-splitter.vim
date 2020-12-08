@@ -18,7 +18,12 @@ function s:ArgumentsCanBeUnsplit()
   let lineNumber = line('.')
   let lineContent = getline(lineNumber)
   
-  if lineContent !~ "function" || lineContent =~ ")"
+  " bad patch that needs improvement (better suport for functions with use() needed)
+  if lineContent =~ "function" && lineContent =~ "(" && lineContent =~ ")" && lineContent !~ 'use'
+    return 0
+  endif
+
+  if lineContent !~ "function"
     return 0
   endif
 
@@ -152,11 +157,14 @@ function PhpArgumentsUnsplit()
     call append(lineNumber, [''])
   endif
 
+  " if there are no arguments between parenthesis, unsplit
+  let refactoredContent = substitute(refactoredContent, "\(\n".baseIndentLevel."\n\)", "\(\)", "g")
+
   let splitInNewLines = split(refactoredContent, '\n')
   call setline(lineNumber, splitInNewLines)
 endfunction
 
-function PhpToggle()
+function PhpArgumentsSplitToggle()
   if s:ArgumentsCanBeSplit() == 1
     call PhpArgumentsSplit()
     return 1
@@ -170,4 +178,4 @@ function PhpToggle()
   return 0
 endfunction
 
-command Ptoggle :call PhpToggle()
+command Ptoggle :call PhpArgumentsSplitToggle()

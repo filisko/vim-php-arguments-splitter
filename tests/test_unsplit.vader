@@ -374,7 +374,7 @@ function whatever(string $foo, ?int $bar = 1) {
 }
 
 
-Given php (function split without arguments);
+Given php (function with 0 arguments);
 function whatever(
 
 ) {
@@ -398,10 +398,92 @@ $longArgs_noVars = function (
 };
 
 Execute:
-  call PhpArgumentsSplit()
+  call PhpArgumentsUnsplit()
 
-Expect (is unsplitted);
+Expect (is unsplit);
 $longArgs_noVars = function (): void {
    // body
 };
 
+
+Given php (class method with 0 arguments);
+class SomeClass
+{
+    protected function someMethod(
+
+    ) {
+        // body
+    }
+}
+
+Execute:
+  execute '/protected function someMethod'
+  call PhpArgumentsUnsplit()
+
+Expect (is unsplit);
+class SomeClass
+{
+    protected function someMethod()
+    {
+        // body
+    }
+}
+
+
+Given php (closure with 4 arguments);
+$longArgs_noVars = function (
+    $longArgument,
+    $longerArgument,
+    $muchLongerArgument
+): void {
+   // body
+};
+
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (is unsplit);
+$longArgs_noVars = function ($longArgument, $longerArgument, $muchLongerArgument): void {
+   // body
+};
+
+
+
+Given php (closure with no args but 3 use arguments);
+$noArgs_longVars = function () use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (function is left as is and use is unsplit);
+$noArgs_longVars = function () use ($longVar1, $longerVar2, $muchLongerVar3) {
+   // body
+};
+
+
+Given php (closure with 2 arguments and 4 use arguments);
+$noArgs_longVars = function (
+    $foo,
+    $bar
+) use (
+    $longVar1,
+    $longerVar2,
+    $muchLongerVar3
+) {
+   // body
+};
+
+Execute:
+  call PhpArgumentsUnsplit()
+
+Expect (both are unsplit);
+$noArgs_longVars = function ($foo, $bar) use ($longVar1, $longerVar2, $muchLongerVar3) {
+   // body
+};
