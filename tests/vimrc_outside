@@ -1,8 +1,8 @@
 filetype off
 set shiftwidth=4
 
-set rtp+=../vader.vim
-set rtp+=..
+set rtp+=vader.vim
+set rtp+=.
 
 filetype plugin indent on
 syntax enable
