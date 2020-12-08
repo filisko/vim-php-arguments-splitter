@@ -16,8 +16,8 @@ matrix:
       env: VIM_VERSION=last
 # neovim build fails with homebrew
 # Error: undefined method `desc' for Neovim:Class
-    - os: osx
-      env: VIM_VERSION=neovim # doesnt complete in travis
+    # - os: osx
+    #   env: VIM_VERSION=neovim # doesnt complete in travis
     - os: osx
       env: VIM_VERSION=macvim # doesnt complete in travis
     - os: linux
