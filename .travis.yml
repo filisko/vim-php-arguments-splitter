@@ -14,10 +14,16 @@ matrix:
         apt:
           packages:
             - vim-nox-py2
-
-before_script: |
-  git clone https://github.com/junegunn/vader.vim.git
-
+    - env: ENV=nvim
+    - env: ENV=nvim VADER_OUTPUT_FILE=/dev/stderr
+    - env: ENV=nvim TESTVIM_OPTS=--headless
+    - env: ENV=nvim-stable
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:neovim-ppa/stable'
+          packages:
+            - neovim
 
 install:
   - pip install --user covimerage
@@ -32,8 +38,19 @@ install:
       make
       make install
       PATH=/tmp/vim/bin:$PATH
+    elif [ "$ENV" = nvim ] || [ "${ENV#nvim-}" != "$ENV" ]; then
+      if [ "$ENV" = nvim ]; then
+        # Install Neovim nightly (into /tmp/_neovim).
+        TRAVIS_BUILD_DIR=/tmp eval "$(curl -Ss https://raw.githubusercontent.com/neovim/bot-ci/master/scripts/travis-setup.sh) nightly-x64"
+      fi
+      gem install neovim
+      pip install --user pynvim
     fi
     popd
+
+before_script: |
+  git clone https://github.com/junegunn/vader.vim.git
+
 script:
   - export TESTVIM="${ENV%%-*}"
   - $TESTVIM --version
